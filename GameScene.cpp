@@ -12,9 +12,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	//if (player_) {
-		player_->Update();
-	//}
+	player_->Update();
 }
 
 void GameScene::Draw() {
