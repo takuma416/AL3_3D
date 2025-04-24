@@ -1,0 +1,25 @@
+#include "GameScene.h"
+#include "Player.h"
+
+using namespace KamataEngine;
+
+void GameScene::Initialize() {
+	textureHandle_ = TextureManager::Load("uvChecker.png");
+	model_ = Model::Create();
+	camera_.Initialize();
+	player_ = new Player();
+	player_->Initialize(model_, textureHandle_, &camera_);
+}
+
+void GameScene::Update() {
+	//if (player_) {
+		player_->Update();
+	//}
+}
+
+void GameScene::Draw() {
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+	Model::PreDraw(dxCommon->GetCommandList());
+	player_->Draw();
+	Model::PostDraw();
+}
