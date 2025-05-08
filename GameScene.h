@@ -1,6 +1,7 @@
 #pragma once
 #include "KamataEngine.h"
 #include "Player.h"
+#include<vector>
 
 class GameScene {
 public:
@@ -13,4 +14,6 @@ private:
 	KamataEngine::Model* model_ = nullptr;
 	KamataEngine::Camera camera_;
 	Player* player_ = nullptr;
+
+	std::vector<WorldTransform*> worldTransformBlocks_;
 };
