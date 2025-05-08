@@ -4,18 +4,13 @@
 using namespace KamataEngine;
 
 void GameScene::Initialize() {
-	textureHandle_ = TextureManager::Load("uvChecker.png");
-	model_ = Model::Create();
-	camera_.Initialize();
+	
 }
 
-void GameScene::Update() {
-	player_->Update();
+void GameScene::Update() { 
+	
 }
 
 void GameScene::Draw() {
-	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
-	Model::PreDraw(dxCommon->GetCommandList());
-	player_->Draw();
-	Model::PostDraw();
+	
 }
