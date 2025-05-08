@@ -1,6 +1,6 @@
 #pragma once
 #include "KamataEngine.h"
-#include<vector>
+#include "Player.h"
 
 class GameScene {
 public:
@@ -8,5 +8,9 @@ public:
 	void Update();
 	void Draw();
 
-
+private:
+	uint32_t textureHandle_ = 0;
+	KamataEngine::Model* model_ = nullptr;
+	KamataEngine::Camera camera_;
+	Player* player_ = nullptr;
 };
