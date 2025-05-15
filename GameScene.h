@@ -8,6 +8,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	bool isDebugCameraActive_ = false;
 
 private:
 	uint32_t textureHandle_ = 0;
@@ -16,4 +17,5 @@ private:
 	KamataEngine::Camera camera_;
 	Player* player_ = nullptr;
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_;
+	KamataEngine::DebugCamera* debugCamera_ = nullptr;
 };

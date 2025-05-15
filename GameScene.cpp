@@ -18,17 +18,20 @@ void GameScene::Initialize() {
 	const float kBlockWidth = 2.0f;
 	const float kBlockHeight = 2.0f;
 
-	// 2次元配列を作成
 	worldTransformBlocks_.resize(kNumBlockHorizontal);
 	for (uint32_t x = 0; x < kNumBlockHorizontal; ++x) {
-		worldTransformBlocks_[x].resize(kNumBlockVertical);
+		worldTransformBlocks_[x].resize(kNumBlockVertical, nullptr);
 		for (uint32_t y = 0; y < kNumBlockVertical; ++y) {
-			worldTransformBlocks_[x][y] = new WorldTransform();
-			worldTransformBlocks_[x][y]->Initialize();
-			worldTransformBlocks_[x][y]->translation_.x = kBlockWidth * x;
-			worldTransformBlocks_[x][y]->translation_.y = kBlockHeight * y;
+			if ((x + y) % 2 == 0) {
+				worldTransformBlocks_[x][y] = new WorldTransform();
+				worldTransformBlocks_[x][y]->Initialize();
+				worldTransformBlocks_[x][y]->translation_.x = kBlockWidth * x;
+				worldTransformBlocks_[x][y]->translation_.y = kBlockHeight * y;
+			}
 		}
 	}
+
+	debugCamera_ = new DebugCamera(1280, 720);
 }
 
 void GameScene::Update() {
@@ -37,21 +40,38 @@ void GameScene::Update() {
 	for (uint32_t x = 0; x < worldTransformBlocks_.size(); ++x) {
 		for (uint32_t y = 0; y < worldTransformBlocks_[x].size(); ++y) {
 			WorldTransform* worldTransformBlock = worldTransformBlocks_[x][y];
+			if (!worldTransformBlock)
+				continue;
+
 			worldTransformBlock->matWorld_ = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
 			worldTransformBlock->TransferMatrix();
 		}
+	}
+
+#ifdef _DEBUG
+	if (Input::GetInstance()->TriggerKey(DIK_0)) { 
+		isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+#endif
+
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		camera_.matView = debugCamera_->GetCamera().matView;
+		camera_.matProjection = debugCamera_->GetCamera().matProjection;
+		camera_.TransferMatrix();
+	} else {
+		camera_.UpdateMatrix();
 	}
 }
 
 void GameScene::Draw() {
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	Model::PreDraw(dxCommon->GetCommandList());
-
-	/*player_->Draw();*/
-
 	for (uint32_t x = 0; x < worldTransformBlocks_.size(); ++x) {
 		for (uint32_t y = 0; y < worldTransformBlocks_[x].size(); ++y) {
-			modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
+			if (worldTransformBlocks_[x][y]) {
+				modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
+			}
 		}
 	}
 
