@@ -6,6 +6,7 @@ void Skydome::Intialize(KamataEngine::Model* model, uint32_t modelSkydome, Kamat
 	modelSkydome_ = modelSkydome;
 	camera_ = camera;
 	worldTransform_.Initialize();
+	
 }
 
 void Skydome::Update() {}
