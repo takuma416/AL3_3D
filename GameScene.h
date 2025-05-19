@@ -9,6 +9,7 @@ public:
 	void Update();
 	void Draw();
 	bool isDebugCameraActive_ = false;
+	KamataEngine::Model* modelSkydome_ = nullptr;
 
 private:
 	uint32_t textureHandle_ = 0;
