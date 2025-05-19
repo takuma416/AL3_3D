@@ -1,6 +1,7 @@
 #include "Skydome.h"
 
 void Skydome::Intialize(KamataEngine::Model* model, uint32_t modelSkydome, KamataEngine::Camera* camera) {
+	assert(model);
 	model_ = model;
 	modelSkydome_ = modelSkydome;
 	camera_ = camera;

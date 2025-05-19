@@ -8,6 +8,7 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 	model_ = Model::Create();
 	modelBlock_ = Model::CreateFromOBJ("cube");
+	modelSkydome_ = Model::CreateFromOBJ("SkyDome",true);
 	camera_.Initialize();
 
 	player_ = new Player();
