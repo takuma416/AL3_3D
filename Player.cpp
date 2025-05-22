@@ -16,6 +16,6 @@ void Player::Update() {
 
 void Player::Draw() {
 	if (camera_ && model_) {
-		model_->Draw(worldTransform_, *camera_, textureHandle_);
+		model_->Draw(worldTransform_, *camera_);
 	}
 }

@@ -7,12 +7,12 @@ using namespace KamataEngine;
 
 void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("uvChecker.png");
-	model_ = Model::Create();
-	modelBlock_ = Model::CreateFromOBJ("cube");
+	model_ = Model::CreateFromOBJ("player");
+	modelBlock_ = Model::CreateFromOBJ("block");
 	modelSkydome_ = Model::CreateFromOBJ("SkyDome",true);
 	camera_.Initialize();
 
-	Skydome* skydome_;
+	
 	skydome_ = new Skydome();
 	skydome_->Intialize(modelSkydome_, textureHandle_, &camera_);
 	player_ = new Player();
@@ -76,10 +76,10 @@ void GameScene::Draw() {
 		for (uint32_t y = 0; y < worldTransformBlocks_[x].size(); ++y) {
 			if (worldTransformBlocks_[x][y]) {
 				modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
-				modelSkydome_->Draw(*worldTransformBlocks_[x][y], camera_);
 			}
 		}
 	}
-
+	skydome_->Draw();
+	player_->Draw();
 	Model::PostDraw();
 }

@@ -20,4 +20,5 @@ private:
 	Player* player_ = nullptr;
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_;
 	KamataEngine::DebugCamera* debugCamera_ = nullptr;
+	Skydome* skydome_ = nullptr;
 };
