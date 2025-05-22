@@ -10,7 +10,9 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, Kama
 	worldTransform_.Initialize();
 }
 
-void Player::Update() { worldTransform_.TransferMatrix(); }
+void Player::Update() { 
+	worldTransform_.TransferMatrix(); 
+}
 
 void Player::Draw() {
 	if (camera_ && model_) {

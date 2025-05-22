@@ -2,6 +2,7 @@
 #include "KamataEngine.h"
 #include "Player.h"
 #include <vector>
+#include "Skydome.h"
 
 class GameScene {
 public:

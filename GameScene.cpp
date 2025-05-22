@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "MyMath.h"
 #include "Player.h"
+#include "Skydome.h"
 
 using namespace KamataEngine;
 
@@ -11,6 +12,9 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("SkyDome",true);
 	camera_.Initialize();
 
+	Skydome* skydome_;
+	skydome_ = new Skydome();
+	skydome_->Intialize(modelSkydome_, textureHandle_, &camera_);
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, &camera_);
 
@@ -72,6 +76,7 @@ void GameScene::Draw() {
 		for (uint32_t y = 0; y < worldTransformBlocks_[x].size(); ++y) {
 			if (worldTransformBlocks_[x][y]) {
 				modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
+				modelSkydome_->Draw(*worldTransformBlocks_[x][y], camera_);
 			}
 		}
 	}
