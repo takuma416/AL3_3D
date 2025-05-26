@@ -2,6 +2,7 @@
 #include "MyMath.h"
 #include "Player.h"
 #include "Skydome.h"
+#include "MapChipField.h"
 
 using namespace KamataEngine;
 
@@ -11,7 +12,6 @@ void GameScene::Initialize() {
 	modelBlock_ = Model::CreateFromOBJ("block");
 	modelSkydome_ = Model::CreateFromOBJ("SkyDome",true);
 	camera_.Initialize();
-
 	
 	skydome_ = new Skydome();
 	skydome_->Intialize(modelSkydome_, textureHandle_, &camera_);
@@ -37,6 +37,9 @@ void GameScene::Initialize() {
 	}
 
 	debugCamera_ = new DebugCamera(1280, 720);
+	mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resource/blocks.csv");
+	GenerateBlocks();
 }
 
 void GameScene::Update() {
@@ -83,3 +86,23 @@ void GameScene::Draw() {
 	player_->Draw();
 	Model::PostDraw();
 }
+
+void GameScene::GenerateBlocks() { 
+	uint32_t kNumBlockVertical = mapChipField_->GetNumBlockVirtical();
+	uint32_t kNumBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+	worldTransformBlocks_.resize(kNumBlockVertical);
+	for (uint32_t i = 0; i < kNumBlockVertical; ++i) {
+		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
+	}
+	for (uint32_t i = 0; i < kNumBlockVertical; ++i) {
+		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+			if (mapChipField_ -> GetMapChipTypeByIndex(j,i)==MapChipType::kBlock) {
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransform->Initialize();
+				worldTransformBlocks_[i][j] = worldTransform;
+				worldTransform->translation_ = mapChipField_->GetMapChipPositionBiIndex(j, i);
+			}
+		}
+	}
+}
+
