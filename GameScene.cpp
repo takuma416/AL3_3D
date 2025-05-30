@@ -18,27 +18,14 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize(model_, textureHandle_, &camera_);
 
-	const uint32_t kNumBlockVertical = 10;
-	const uint32_t kNumBlockHorizontal = 20;
-	const float kBlockWidth = 2.0f;
-	const float kBlockHeight = 2.0f;
+	
+	
 
-	worldTransformBlocks_.resize(kNumBlockHorizontal);
-	for (uint32_t x = 0; x < kNumBlockHorizontal; ++x) {
-		worldTransformBlocks_[x].resize(kNumBlockVertical, nullptr);
-		for (uint32_t y = 0; y < kNumBlockVertical; ++y) {
-			if ((x + y) % 2 == 0) {
-				worldTransformBlocks_[x][y] = new WorldTransform();
-				worldTransformBlocks_[x][y]->Initialize();
-				worldTransformBlocks_[x][y]->translation_.x = kBlockWidth * x;
-				worldTransformBlocks_[x][y]->translation_.y = kBlockHeight * y;
-			}
-		}
-	}
+	
 
 	debugCamera_ = new DebugCamera(1280, 720);
 	mapChipField_ = new MapChipField;
-	mapChipField_->LoadMapChipCsv("Resource/blocks.csv");
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	GenerateBlocks();
 }
 

@@ -12,7 +12,7 @@ public:
 	void Draw();
 	bool isDebugCameraActive_ = false;
 	KamataEngine::Model* modelSkydome_ = nullptr;
-	MapChipField* mapChipField_;
+	MapChipField* mapChipField_=nullptr;
 	void GenerateBlocks();
 
 private:

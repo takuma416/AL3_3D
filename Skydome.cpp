@@ -13,7 +13,7 @@ void Skydome::Update() {}
 
 void Skydome::Draw() {
 	if (camera_ && model_) {
-		model_->Draw(worldTransform_, *camera_, modelSkydome_);
+		model_->Draw(worldTransform_, *camera_);
 	}
 }
 
