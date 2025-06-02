@@ -16,17 +16,14 @@ void GameScene::Initialize() {
 	skydome_ = new Skydome();
 	skydome_->Intialize(modelSkydome_, textureHandle_, &camera_);
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, &camera_);
-
-	
-	
-
-	
 
 	debugCamera_ = new DebugCamera(1280, 720);
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	GenerateBlocks();
+
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionBiIndex(1, 18);
+	player_->Initialize(model_, &camera_, playerPosition);
 }
 
 void GameScene::Update() {
