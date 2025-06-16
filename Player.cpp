@@ -12,15 +12,15 @@ void Player::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera
 	camera_ = camera;
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
-	//worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
-	//worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.rotation_, worldTransform_.scale_, worldTransform_.translation_);
+	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.rotation_, worldTransform_.scale_, worldTransform_.translation_);
 }
 
 void Player::Update() {
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.rotation_, worldTransform_.scale_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix();
 	
-	/*if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT)) {
+	if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT)) {
 		Vector3 acceleration{};
 		if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
 			if (velocity_.x < 0.0f) {
@@ -47,17 +47,16 @@ void Player::Update() {
 		}
 		velocity_ += acceleration;
 		velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
-	}*/
-	//worldTransform_.translation_ += velocity_;
-	/*if (turnTimer_ > 0) {
+	}
+	worldTransform_.translation_ += velocity_;
+	if (turnTimer_ > 0) {
 		float destinationRotationYTable[] = {std::numbers::pi_v<float> / 2.0f, std::numbers::pi_v<float> * 3.0f / 2.0f};
 		float destinationRotationY = destinationRotationYTable[static_cast<uint32_t>(lrDirection_)];
 		worldTransform_.rotation_.y = destinationRotationY;
-	}*/
+	}
 }
 void Player::Draw() {
 	if (camera_ && model_) {
 		model_->Draw(worldTransform_, *camera_);
-		
 	}
 }
