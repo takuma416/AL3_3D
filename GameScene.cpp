@@ -1,8 +1,8 @@
 #include "GameScene.h"
+#include "MapChipField.h"
 #include "MyMath.h"
 #include "Player.h"
 #include "Skydome.h"
-#include "MapChipField.h"
 
 using namespace KamataEngine;
 
@@ -10,23 +10,21 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 	model_ = Model::CreateFromOBJ("player");
 	modelBlock_ = Model::CreateFromOBJ("block");
-	modelSkydome_ = Model::CreateFromOBJ("SkyDome",true);
+	modelSkydome_ = Model::CreateFromOBJ("SkyDome", true);
 	camera_.Initialize();
-	
+
 	skydome_ = new Skydome();
 	skydome_->Intialize(modelSkydome_, textureHandle_, &camera_);
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_, &camera_);
-
-	
-	
-
-	
 
 	debugCamera_ = new DebugCamera(1280, 720);
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	GenerateBlocks();
+
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionBiIndex(1, 18);
+	playerPosition = {0, 0, 0};
+	player_->Initialize(model_, &camera_, playerPosition);
 }
 
 void GameScene::Update() {
@@ -44,7 +42,7 @@ void GameScene::Update() {
 	}
 
 #ifdef _DEBUG
-	if (Input::GetInstance()->TriggerKey(DIK_0)) { 
+	if (Input::GetInstance()->TriggerKey(DIK_0)) {
 		isDebugCameraActive_ = !isDebugCameraActive_;
 	}
 #endif
@@ -65,7 +63,7 @@ void GameScene::Draw() {
 	for (uint32_t x = 0; x < worldTransformBlocks_.size(); ++x) {
 		for (uint32_t y = 0; y < worldTransformBlocks_[x].size(); ++y) {
 			if (worldTransformBlocks_[x][y]) {
-				modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
+				//modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
 			}
 		}
 	}
@@ -74,7 +72,7 @@ void GameScene::Draw() {
 	Model::PostDraw();
 }
 
-void GameScene::GenerateBlocks() { 
+void GameScene::GenerateBlocks() {
 	uint32_t kNumBlockVertical = mapChipField_->GetNumBlockVirtical();
 	uint32_t kNumBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
 	worldTransformBlocks_.resize(kNumBlockVertical);
@@ -83,7 +81,7 @@ void GameScene::GenerateBlocks() {
 	}
 	for (uint32_t i = 0; i < kNumBlockVertical; ++i) {
 		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
-			if (mapChipField_ -> GetMapChipTypeByIndex(j,i)==MapChipType::kBlock) {
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) {
 				WorldTransform* worldTransform = new WorldTransform();
 				worldTransform->Initialize();
 				worldTransformBlocks_[i][j] = worldTransform;
