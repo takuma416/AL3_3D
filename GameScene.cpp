@@ -23,7 +23,7 @@ void GameScene::Initialize() {
 	GenerateBlocks();
 
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionBiIndex(1, 18);
-	playerPosition = {0, 0, 0};
+	//playerPosition = {0, 0, 0};
 	player_->Initialize(model_, &camera_, playerPosition);
 }
 
@@ -63,7 +63,7 @@ void GameScene::Draw() {
 	for (uint32_t x = 0; x < worldTransformBlocks_.size(); ++x) {
 		for (uint32_t y = 0; y < worldTransformBlocks_[x].size(); ++y) {
 			if (worldTransformBlocks_[x][y]) {
-				//modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
+				modelBlock_->Draw(*worldTransformBlocks_[x][y], camera_);
 			}
 		}
 	}

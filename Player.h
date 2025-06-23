@@ -29,4 +29,10 @@ private:
 	float turnTimer_ = 0.0f;
 
 	static inline const float kTimeTurn = 0.3f;
+
+	bool onGround_ = true;
+
+	static inline const float kGravityAcceleration = 0.1f;
+	static inline const float kLimitFallSpeed = 5.0f;
+	static inline const float kJumpAcceleration = 0.7f;
 };
