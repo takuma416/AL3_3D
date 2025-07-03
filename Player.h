@@ -8,6 +8,9 @@ public:
 	void Update();
 	void Draw();
 
+	const KamataEngine::WorldTransform& GetWorldTransform() const { return worldTransform_; }
+	const KamataEngine::Vector3& GetVelocity() const { return velocity_; }
+
 private:
 	KamataEngine::WorldTransform worldTransform_;
 	KamataEngine::Model* model_ = nullptr;
@@ -23,6 +26,7 @@ private:
 		kRight, 
 		kLeft,
 	};
+
 	LRDirection lrDirection_ = LRDirection::kRight;
 
 	float turnFirstRotationY_ = 0.0f;
@@ -35,4 +39,6 @@ private:
 	static inline const float kGravityAcceleration = 0.1f;
 	static inline const float kLimitFallSpeed = 5.0f;
 	static inline const float kJumpAcceleration = 0.7f;
+
+	
 };

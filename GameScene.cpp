@@ -3,6 +3,7 @@
 #include "MyMath.h"
 #include "Player.h"
 #include "Skydome.h"
+#include "CameraController.h"
 
 using namespace KamataEngine;
 
@@ -25,6 +26,15 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionBiIndex(1, 18);
 	//playerPosition = {0, 0, 0};
 	player_->Initialize(model_, &camera_, playerPosition);
+
+	//カメラコントローラーの初期化
+	cameraController_ = new CameraController();
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+	cameraController_->Reset();
+
+	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_->SetMovableArea(cameraArea);
 }
 
 void GameScene::Update() {
@@ -54,7 +64,12 @@ void GameScene::Update() {
 		camera_.TransferMatrix();
 	} else {
 		camera_.UpdateMatrix();
+		camera_.matView = cameraController_->GetViewProjection().matView;
+		camera_.matProjection = cameraController_->GetViewProjection().matProjection;
+		camera_.TransferMatrix();
 	}
+
+	cameraController_->Update();
 }
 
 void GameScene::Draw() {

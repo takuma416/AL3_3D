@@ -4,6 +4,7 @@
 #include <vector>
 #include "Skydome.h"
 #include "MapChipField.h"
+#include "CameraController.h"
 
 class GameScene {
 public:
@@ -24,4 +25,5 @@ private:
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_;
 	KamataEngine::DebugCamera* debugCamera_ = nullptr;
 	Skydome* skydome_ = nullptr;
+	CameraController* cameraController_ = nullptr;
 };
