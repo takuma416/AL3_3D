@@ -26,6 +26,7 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionBiIndex(1, 18);
 	//playerPosition = {0, 0, 0};
 	player_->Initialize(model_, &camera_, playerPosition);
+	player_->SetMapChipField(mapChipField_);
 
 	//カメラコントローラーの初期化
 	cameraController_ = new CameraController();
