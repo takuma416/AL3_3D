@@ -1,29 +1,49 @@
 #pragma once
-#include "KamataEngine.h"
-#include "Player.h"
-#include <vector>
-#include "Skydome.h"
-#include "MapChipField.h"
 #include "CameraController.h"
+#include "KamataEngine.h"
+#include "MapChipField.h"
+#include "player.h"
+#include "skydome.h"
+#include "vector"
 
 class GameScene {
 public:
+	~GameScene();
+
+	// 初期化
 	void Initialize();
+
+	// 更新
 	void Update();
+
+	// 描画
 	void Draw();
-	bool isDebugCameraActive_ = false;
-	KamataEngine::Model* modelSkydome_ = nullptr;
-	MapChipField* mapChipField_=nullptr;
+
+	// 表示ブロックの生成
 	void GenerateBlocks();
+
+	// スプライト
+	KamataEngine::Model* model_ = nullptr;
+
+	KamataEngine::Model* modelSkydome_ = nullptr;
+
+	KamataEngine::Model* modelPlayer_ = nullptr;
+
+	KamataEngine::Camera camera_;
+
+	MapChipField* mapChipField_;
+
+	Player* player_ = nullptr;
+
+	skydome* skydome_ = nullptr;
+
+	CameraController* cameraController_ = nullptr;
+
+	bool isDebugCameraActive_ = false;
+	KamataEngine::DebugCamera* debugCamera_ = nullptr;
+
+	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_;
 
 private:
 	uint32_t textureHandle_ = 0;
-	KamataEngine::Model* model_ = nullptr;
-	KamataEngine::Model* modelBlock_ = nullptr;
-	KamataEngine::Camera camera_;
-	Player* player_ = nullptr;
-	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_;
-	KamataEngine::DebugCamera* debugCamera_ = nullptr;
-	Skydome* skydome_ = nullptr;
-	CameraController* cameraController_ = nullptr;
 };

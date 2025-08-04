@@ -1,20 +1,15 @@
-#include "Skydome.h"
+#include "skydome.h"
 
-void Skydome::Intialize(KamataEngine::Model* model, uint32_t modelSkydome, KamataEngine::Camera* camera) {
+void skydome::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
 	assert(model);
 	model_ = model;
-	modelSkydome_ = modelSkydome;
-	camera_ = camera;
+	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
-	
+	camera_ = camera;
 }
 
-void Skydome::Update() {}
+void skydome::Update() {}
 
-void Skydome::Draw() {
-	if (camera_ && model_) {
-		model_->Draw(worldTransform_, *camera_);
-	}
-}
+void skydome::Draw() { model_->Draw(worldTransform_, *camera_); }
 
 
