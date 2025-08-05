@@ -1,5 +1,6 @@
 #pragma once
 #include "CameraController.h"
+#include "Enemy.h"
 #include "KamataEngine.h"
 #include "MapChipField.h"
 #include "player.h"
@@ -29,11 +30,15 @@ public:
 
 	KamataEngine::Model* modelPlayer_ = nullptr;
 
+	KamataEngine::Model* modelEnemy_ = nullptr;
+
 	KamataEngine::Camera camera_;
 
 	MapChipField* mapChipField_;
 
 	Player* player_ = nullptr;
+
+	Enemy* enemy_ = nullptr;
 
 	skydome* skydome_ = nullptr;
 
