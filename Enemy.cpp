@@ -27,12 +27,10 @@ void Enemy::Update() {
 
 	worldTransform_.translation_ += velocity_;
 
+	
 	walkTimer_ += 1.0f / 60.0f;
-
+	
 	worldTransform_.rotation_.x = std::sin(walkTimer_ * 5.0f);
-	//float param = std::sin(walkTimer_ * 5.0f);
-	//float degree = kWalkMotionAngleStart + kWalkMotionAngleEnd * (param + 1.0f) / 2.0f;
-	//worldTransform_.rotation_.x = ;
 
 	worldTransform_.matWorld_ = MakeaffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
@@ -40,3 +38,29 @@ void Enemy::Update() {
 }
 
 void Enemy::Draw() { model_->Draw(worldTransform_, *camera_); }
+
+void Enemy::OnCollision(const Player* player) { (void)player; }
+
+KamataEngine::Vector3 Enemy::GetWorldPosition() {
+
+	
+	KamataEngine::Vector3 worldPos;
+	
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
+}
+
+AABB Enemy::GetAABB() {
+
+	KamataEngine::Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}

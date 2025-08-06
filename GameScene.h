@@ -23,6 +23,9 @@ public:
 	// 表示ブロックの生成
 	void GenerateBlocks();
 
+	// すべての当たり判定を行う
+	void CheckAllCollisions();
+
 	// スプライト
 	KamataEngine::Model* model_ = nullptr;
 
@@ -38,7 +41,7 @@ public:
 
 	Player* player_ = nullptr;
 
-	Enemy* enemy_ = nullptr;
+	/*Enemy* enemy_ = nullptr;*/
 
 	skydome* skydome_ = nullptr;
 
@@ -48,6 +51,8 @@ public:
 	KamataEngine::DebugCamera* debugCamera_ = nullptr;
 
 	std::vector<std::vector<KamataEngine::WorldTransform*>> worldTransformBlocks_;
+	
+	std::list<Enemy*> enemies_;
 
 private:
 	uint32_t textureHandle_ = 0;

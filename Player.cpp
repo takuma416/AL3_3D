@@ -1,5 +1,4 @@
 #include "player.h"
-#include "MyMath.h"
 #include "cassert"
 #include "numbers"
 #define NOMINMAX
@@ -36,31 +35,6 @@ void Player::Update() {
 
 	CheckMapLanding(collisionMapInfo);
 
-	/*bool landing = false;
-
-	if (velocity_.y < 0) {
-	    if (worldTransform_.translation_.y <= 1.0f) {
-	        landing = true;
-	    }
-	}
-
-	if (onGround_) {
-	    if (velocity_.y > 0.0f) {
-	        onGround_ = false;
-	    }
-	} else {
-	    if (landing) {
-	        worldTransform_.translation_.y = 1.0f;
-
-	        velocity_.x *= (1.0f - kAttenuation);
-
-	        velocity_.y = 0.0f;
-
-	        onGround_ = true;
-	    }
-	}*/
-
-	//
 	AnimateTurn();
 
 	worldTransform_.matWorld_ = MakeaffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
@@ -69,6 +43,37 @@ void Player::Update() {
 }
 
 void Player::Draw() { model_->Draw(worldTransform_, *camera_); }
+
+KamataEngine::Vector3 Player::GetWorldPosition() {
+
+	// ワールド座標を入れる変数
+	KamataEngine::Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
+}
+
+void Player::OnCollision(const Enemy* enemy) {
+
+	(void)enemy;
+
+	velocity_ += KamataEngine::Vector3({0, 1, 0});
+}
+
+AABB Player::GetAABB() {
+
+	KamataEngine::Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
 
 void Player::InputMove() {
 
