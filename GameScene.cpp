@@ -64,7 +64,7 @@ void GameScene::Initialize() {
 	/*enemy_ = new Enemy();*/
 	for (int32_t i = 0; i < 2; i++) {
 		Enemy* newEnemy = new Enemy();
-		enemyPosition = mapChipField_->GetMapChipPositionByIndex(6 + i, 18);
+		enemyPosition = mapChipField_->GetMapChipPositionByIndex(20 + i, 18);
 		newEnemy->Initialize(modelEnemy_, &camera_, enemyPosition);
 
 		enemies_.push_back(newEnemy);
