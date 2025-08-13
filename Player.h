@@ -33,6 +33,9 @@ public:
 
 	void OnCollision(const Enemy* enemy);
 
+	// デスフラグのgetter
+	bool IsDead() const { return isDead_; }
+
 private:
 	// スプライト
 	KamataEngine::Model* model_ = nullptr;
@@ -120,4 +123,6 @@ private:
 	static inline const float kGroundSearchHeight = 0.5f;
 
 	static inline const float kAttenuationWall = 0.5f;
+	// デスフラグ
+	bool isDead_ = false;
 };

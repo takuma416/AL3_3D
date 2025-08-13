@@ -60,7 +60,9 @@ void Player::OnCollision(const Enemy* enemy) {
 
 	(void)enemy;
 
-	velocity_ += KamataEngine::Vector3({0, 1, 0});
+	/*velocity_ += KamataEngine::Vector3({0, 1, 0});*/
+
+	isDead_ = true;
 }
 
 AABB Player::GetAABB() {
