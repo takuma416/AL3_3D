@@ -2,6 +2,7 @@
 #include "CameraController.h"
 #include "DeathParticles.h"
 #include "Enemy.h"
+#include "Fade.h"
 #include "KamataEngine.h"
 #include "MapChipField.h"
 #include "player.h"
@@ -13,6 +14,8 @@ public:
 	enum class Phase {
 		kPlay,  // ゲームプレイ
 		kDeath, // デス演出
+		kFadeIn,
+		kFadeout,
 	};
 	// ゲームの現在フェーズ
 	Phase phase_;
@@ -72,6 +75,8 @@ public:
 	std::list<Enemy*> enemies_;
 
 	DeathParticles* deathParticles_ = nullptr;
+
+	Fade* fade_ = nullptr;
 
 private:
 	uint32_t textureHandle_ = 0;

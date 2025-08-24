@@ -22,6 +22,7 @@ GameScene::~GameScene() {
 	for (Enemy* enemy : enemies_) {
 		delete enemy;
 	}
+	delete fade_;
 }
 
 // 初期化処理
@@ -50,7 +51,7 @@ void GameScene::Initialize() {
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	// ゲームプレイフェーズから開始
-	phase_ = Phase::kPlay;
+	phase_ = Phase::kFadeIn;
 
 	GenerateBlocks();
 
@@ -70,10 +71,10 @@ void GameScene::Initialize() {
 		enemies_.push_back(newEnemy);
 	}
 
-	mapChipField_ = new MapChipField;
-	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+	/*mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");*/
 	GenerateBlocks();
-	player_->SetMapChipField(mapChipField_);
+	player_->SetMapChipField(mapChipField_ );
 
 	skydome_ = new skydome();
 
@@ -96,17 +97,57 @@ void GameScene::Initialize() {
 
 	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
 	cameraController_->SetMovableArea(cameraArea);
+
+	fade_ = new Fade();
+	fade_->Initialize();
+	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
 // 更新処理
 void GameScene::Update() {
+
+	switch (phase_) {
+	case GameScene::Phase::kPlay:
+		// すべての当たり判定を行う
+		CheckAllCollisions();
+		if (player_->IsDead() == true) {
+			phase_ = Phase::kDeath;
+
+			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
+
+			deathParticles_ = new DeathParticles;
+			//
+			deathParticles_->Initialize(modelParticles_, &camera_, deathParticlesPosition);
+		}
+		break;
+	case GameScene::Phase::kDeath:
+
+		deathParticles_->Update();
+
+		if (deathParticles_ && deathParticles_->IsFinished()) {
+			phase_ = Phase::kFadeout;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
+		}
+
+		break;
+	case GameScene::Phase::kFadeIn:
+		fade_->Update();
+		if (fade_->IsFinished()) {
+			phase_ = Phase::kPlay;
+		}
+		break;
+	case GameScene::Phase::kFadeout:
+		fade_->Update();
+		if (fade_->IsFinished()) {
+			finished_ = true;
+		}
+		break;
+	}
+
+	fade_->Update();
 	// 自キャラの更新
 	player_->Update();
-
 	/*enemy_->Update();*/
-
-	// すべての当たり判定を行う
-	CheckAllCollisions();
 
 	ChangePhase();
 
@@ -142,12 +183,12 @@ void GameScene::Update() {
 	for (Enemy* enemy : enemies_) {
 		enemy->Update();
 	}
-	if (deathParticles_) {
+	/*if (deathParticles_) {
 		deathParticles_->Update();
-	}
-	if (deathParticles_ && deathParticles_->IsFinished()) {
+	}*/
+	/*if (deathParticles_ && deathParticles_->IsFinished()) {
 		finished_ = true;
-	}
+	}*/
 }
 
 // 描画処理
@@ -184,6 +225,8 @@ void GameScene::Draw() {
 	if (deathParticles_) {
 		deathParticles_->Draw();
 	}
+
+	fade_->Draw();
 
 	// スプライト描画後処理
 	Model::PostDraw();
@@ -253,8 +296,11 @@ void GameScene::ChangePhase() {
 	case GameScene::Phase::kDeath:
 		// デス演出フェーズの処理
 		if (deathParticles_ && deathParticles_->IsFinished()) {
-			finished_ = true;
+			phase_ = Phase::kFadeout;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}
+
+
 		break;
 	}
 }
