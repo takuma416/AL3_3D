@@ -45,9 +45,6 @@ void GameScene::Initialize() {
 
 	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
 
-	/*deathParticles_ = new DeathParticles;
-	deathParticles_->Initialize(modelParticles_, &camera_, playerPosition);*/
-
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	// ゲームプレイフェーズから開始
@@ -62,7 +59,6 @@ void GameScene::Initialize() {
 	player_ = new Player();
 
 	// 　敵キャラの生成
-	/*enemy_ = new Enemy();*/
 	for (int32_t i = 0; i < 2; i++) {
 		Enemy* newEnemy = new Enemy();
 		enemyPosition = mapChipField_->GetMapChipPositionByIndex(20 + i, 18);
@@ -71,8 +67,6 @@ void GameScene::Initialize() {
 		enemies_.push_back(newEnemy);
 	}
 
-	/*mapChipField_ = new MapChipField;
-	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");*/
 	GenerateBlocks();
 	player_->SetMapChipField(mapChipField_ );
 
@@ -82,9 +76,6 @@ void GameScene::Initialize() {
 
 	// 自キャラの初期化
 	player_->Initialize(modelPlayer_, &camera_, playerPosition);
-
-	// 敵キャラの初期化
-	/*enemy_->Initialize(modelEnemy_,&camera_,enemyPosition);*/
 
 	// 背景
 	skydome_->Initialize(modelSkydome_, textureHandle_, &camera_);
@@ -172,7 +163,6 @@ void GameScene::Update() {
 		camera_.matView = debugCamera_->GetCamera().matView;
 		camera_.TransferMatrix();
 	} else {
-		///*camera_.UpdateMatrix();*/
 		camera_.matView = cameraController_->GetViewProjection().matView;
 		camera_.matProjection = cameraController_->GetViewProjection().matProjection;
 		//
@@ -183,12 +173,6 @@ void GameScene::Update() {
 	for (Enemy* enemy : enemies_) {
 		enemy->Update();
 	}
-	/*if (deathParticles_) {
-		deathParticles_->Update();
-	}*/
-	/*if (deathParticles_ && deathParticles_->IsFinished()) {
-		finished_ = true;
-	}*/
 }
 
 // 描画処理
@@ -216,8 +200,6 @@ void GameScene::Draw() {
 	}
 	// 背景の描画
 	skydome_->Draw();
-	// 敵の描画
-	/*enemy_->Draw();*/
 
 	for (Enemy* enemy : enemies_) {
 		enemy->Draw();
@@ -235,9 +217,6 @@ void GameScene::Draw() {
 void GameScene::GenerateBlocks() {
 	const uint32_t kNumBlockVirtical = mapChipField_->GetNumBlockVerirtical();
 	const uint32_t kNumBlockHorizon = mapChipField_->GetNumBlockHorizontal();
-
-	// const float kBlockWidth = 2.0f;
-	// const float kBlockheight = 2.0f;
 
 	worldTransformBlocks_.resize(kNumBlockVirtical);
 
