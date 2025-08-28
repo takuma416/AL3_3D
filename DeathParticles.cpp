@@ -7,7 +7,7 @@ using namespace KamataEngine;
 using namespace MathUtility;
 
 void DeathParticles::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, const KamataEngine::Vector3& position) {
-	assert(model);
+	//assert(model);
 	model_ = model;
 	objectColor_.Initialize();
 	color_ = {1, 1, 1, 1};

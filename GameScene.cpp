@@ -34,7 +34,7 @@ void GameScene::Initialize() {
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 	// スプライトインスタンスの生成
-	model_ = Model::CreateFromOBJ("block", true);
+	model_ = Model::CreateFromOBJ("gom", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 
 	debugCamera_ = new DebugCamera(1280, 720);
 
-	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
+	modelEnemy_ = Model::CreateFromOBJ("rock", true);
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");

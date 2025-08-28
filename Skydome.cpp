@@ -1,7 +1,7 @@
 #include "skydome.h"
 
 void skydome::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
-	assert(model);
+	//assert(model);
 	model_ = model;
 	textureHandle_ = textureHandle;
 	worldTransform_.Initialize();
